@@ -20,3 +20,12 @@ def color_codeblock(text):
 
 def color_warning_box(text):
     return Colors.WARNING + Colors.BOLD + text + Colors.ENDC
+
+def color_note_box(text):
+    return Colors.OKBLUE + Colors.BOLD + text + Colors.ENDC
+
+def color_tip_box(text):
+    return Colors.OKGREEN + Colors.BOLD + text + Colors.ENDC
+
+def color_url(text):
+    return Colors.OKCYAN + text + Colors.ENDC
