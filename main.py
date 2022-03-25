@@ -51,4 +51,9 @@ if __name__ == "__main__":
             print("breaking")
             break
         else:
-            print(x.text)
+            # if the headline is the same as the selected headline, make it stand out
+            if x.name == "span" and x.text == page_headers[user_input - 1]:
+                print("-[ {0}".format(x.text))
+
+            elif x.name == "span" and "mw-headline" in x["class"]:
+                print("# {0}".format(x.text))
