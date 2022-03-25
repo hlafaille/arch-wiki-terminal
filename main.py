@@ -1,7 +1,11 @@
 import os
+import re
 
 import requests
 from bs4 import BeautifulSoup
+
+import util
+from util import Colors
 
 if __name__ == "__main__":
     # ask for search
@@ -39,21 +43,41 @@ if __name__ == "__main__":
             print("[{0}] {1}".format(headers_count, header.text))
 
     user_input = int(input("> "))
-    #print("user input is {0}, getting next next_element.text until next element text is {1}".format(user_input, page_headers[user_input].text))
+    # print("user input is {0}, getting next next_element.text until next element text is {1}".format(user_input, page_headers[user_input].text))
 
     print("--------------------")
 
     # get all the text between this h2 and the next h2
-    next_tag = page_headers[user_input - 1].find_all_next(['p', "span"])
+    next_tag = page_headers[user_input - 1].find_all_next(['p', "span", "div", "pre"])
 
     for x in next_tag:
         if x.name == "span" and x.text == page_headers[user_input].text:
             print("breaking")
             break
         else:
-            # if the headline is the same as the selected headline, make it stand out
-            if x.name == "span" and x.text == page_headers[user_input - 1]:
-                print("-[ {0}".format(x.text))
+            try:
+                # if the headline is the same as the selected headline, make it stand out
+                if x.name == "span" and x.text == page_headers[user_input - 1].text:
+                    print(util.color_header("-[ {0}".format(x.text)))
+                    print(util.color_header("--------------------"))
+                    print("")
 
-            elif x.name == "span" and "mw-headline" in x["class"]:
-                print("# {0}".format(x.text))
+                # if this is a subheadline, make it stand out a bit less
+                elif x.name == "span" and "mw-headline" in x["class"]:
+                    print(util.color_subheader("# {0}".format(x.text)))
+
+                # if this is a warning box
+                elif x.name == "div" and "archwiki-template-box-warning" in x["class"]:
+                    print(util.color_warning_box(x.text))
+
+                # if this is a codeblock
+                elif x.name == "pre":
+                    print(util.color_codeblock(x.text))
+
+                # if this is a standard paragraph
+                elif x.name == "p" and not x.text == "":
+                    print(re.sub('\\s+', ' ', x.text))
+                    print("")
+
+            except KeyError:
+                pass
