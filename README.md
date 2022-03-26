@@ -10,7 +10,7 @@ Either use a pre-compiled executable, or set up a Python virtual environment usi
 # Usage
 1. Run the command (either `arch-wiki` if using the executable, or `python main.py` in your virtual environment)
 2. Enter search term in the prompt
-OR
+---
 1. Run the command (either `arch-wiki` if using the executable, or `python main.py` in your virtual environment) with your search term as an argument.
 
 # Contribute
