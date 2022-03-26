@@ -1,18 +1,29 @@
-import os
 import re
+import sys
 
 import requests
 from bs4 import BeautifulSoup
-
 import util
-from util import Colors
 
 if __name__ == "__main__":
-    # ask for search
-    user_search = input("search> ")
+    try:
+        # if there was no argument on exec
+        if not sys.argv[1]:
+            # ask for search
+            user_search = input("search> ")
 
-    # get data from arch wiki
-    data = requests.get("https://wiki.archlinux.org/index.php?search={0}".format(user_search))
+            # get data from arch wiki
+            data = requests.get("https://wiki.archlinux.org/index.php?search={0}".format(user_search))
+        # if there is an argument on exec
+        else:
+            # get data from arch wiki
+            data = requests.get("https://wiki.archlinux.org/index.php?search={0}".format(sys.argv[1]))
+    except IndexError:
+        # ask for search
+        user_search = input("search> ")
+
+        # get data from arch wiki
+        data = requests.get("https://wiki.archlinux.org/index.php?search={0}".format(user_search))
 
     # set up beautifulsoup
     soup = BeautifulSoup(data.text, 'html.parser')
@@ -28,13 +39,28 @@ if __name__ == "__main__":
         # get the main content
         main_content = soup.find("main", {"id": "content"})
 
-        # get the big boy paragraph
+        # get the big boy paragraph (if there is one)
         try:
             big_boy_paragraph = soup.find("dd")
             print(big_boy_paragraph.text)
             print("--------------------")
         except AttributeError:
-            print("...")
+            # there's probably a <p>/ list here then..
+            try:
+                tiny_boy_description = main_content.find("div", {"class": "archwiki-template-meta-related-articles-start"}).find_next_sibling("p")
+                print(tiny_boy_description.text)
+                tiny_boy_list = tiny_boy_description.find_next_sibling("ul")
+
+                temp = []
+                for x in tiny_boy_list.children:
+                    temp.append(x.text.replace("\n", ""))
+
+                for x in temp:
+                    if not x == "":
+                        print("- {0} ".format(x))
+                print("--------------------")
+            except AttributeError:
+                pass
 
         # get all h2 headings in the main content
         page_headers = main_content.find_all("h2", id=None)
@@ -57,7 +83,6 @@ if __name__ == "__main__":
             for x in next_tag:
                 try:
                     if x.name == "span" and x.text == page_headers[user_input].text:
-                        print("breaking")
                         break
                 except IndexError:
                     pass
