@@ -8,7 +8,10 @@ Read the Arch Linux Wiki right in your terminal!
 Either use a pre-compiled executable, or set up a Python virtual environment using the `requirements.txt` file.
 
 # Usage
-Usage is very simple, run it through a terminal. You're prompted with an input to search the wiki (ex: pyhton, i3, linux). After results are found, you're prompted to select a chapter in the table of contents.
+1. Run the command (either `arch-wiki` if using the executable, or `python main.py` in your virtual environment)
+2. Enter search term in the prompt
+OR
+1. Run the command (either `arch-wiki` if using the executable, or `python main.py` in your virtual environment) with your search term as an argument.
 
 # Contribute
 This project was written in Python 3.9 with BeautifulSoup as an HTML parser, so please feel free to make any contributions! <3
