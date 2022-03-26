@@ -13,13 +13,13 @@ def color_header(text):
     return Colors.HEADER + Colors.BOLD + text + Colors.ENDC
 
 def color_subheader(text):
-    return Colors.HEADER + Colors.UNDERLINE + text + Colors.ENDC
+    return "\n" + Colors.HEADER + Colors.UNDERLINE + text + Colors.ENDC
 
 def color_codeblock(text):
     return Colors.OKBLUE + Colors.BOLD + text + Colors.ENDC
 
 def color_warning_box(text):
-    return Colors.WARNING + Colors.BOLD + text + Colors.ENDC
+    return Colors.FAIL + Colors.BOLD + text + Colors.ENDC
 
 def color_note_box(text):
     return Colors.OKBLUE + Colors.BOLD + text + Colors.ENDC

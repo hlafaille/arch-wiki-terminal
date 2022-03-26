@@ -14,16 +14,22 @@ if __name__ == "__main__":
             # ask for search
             user_search = input("search> ")
 
+            print("searching...")
+
             # get data from arch wiki
             data = requests.get("https://wiki.archlinux.org/index.php?search={0}".format(user_search))
         # if there is an argument on exec
         else:
+            print("searching...")
+
             # get data from arch wiki
             data = requests.get("https://wiki.archlinux.org/index.php?search={0}".format(sys.argv[1]))
 
     except IndexError:
         # ask for search
         user_search = input("search> ")
+
+        print("searching...")
 
         # get data from arch wiki
         data = requests.get("https://wiki.archlinux.org/index.php?search={0}".format(user_search))
